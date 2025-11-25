@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet, Link, useNavigate } from 'react-router-dom';
-import { FaTachometerAlt, FaBox, FaConciergeBell, FaNewspaper, FaUsers, FaSignOutAlt, FaHome, FaCalendarAlt } from 'react-icons/fa';
+import { FaTachometerAlt, FaBox, FaConciergeBell, FaNewspaper, FaUsers, FaSignOutAlt, FaHome, FaCalendarAlt, FaStethoscope } from 'react-icons/fa';
 
 const AdminLayout = () => {
   const navigate = useNavigate();
@@ -46,6 +46,11 @@ const AdminLayout = () => {
           <li className="nav-item mb-2">
             <Link to="/admin/bookings" className="nav-link text-white">
               <FaCalendarAlt className="me-2" /> Quản Lý Đơn Đặt Dịch Vụ
+            </Link>
+          </li>
+          <li className="nav-item mb-2">
+            <Link to="/admin/doctor" className="nav-link text-white"> {/* Sửa 'nav-lin' */}
+              <FaStethoscope className="me-2" /> Quản Lý Bác Sĩ {/* Thêm icon và text */}
             </Link>
           </li>
           <li className="nav-item mb-2">

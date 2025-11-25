@@ -1,0 +1,284 @@
+/* DoctorDetail.css - ĐÃ TỐI ƯU VÀ SỬA LỖI NAV BAR */
+
+.detail-container {
+    max-width: 1200px; /* Giữ kích thước container lớn */
+    margin: 0 auto;
+    padding: 40px 20px;
+    
+    /* === KHẮC PHỤC LỖI NAV BAR === */
+    /* Nếu navbar của bạn cố định (fixed/sticky) và cao khoảng 60-80px, 
+       hãy thêm padding-top để đẩy nội dung xuống. */
+    padding-top: 100px; /* Thêm padding-top để tránh bị navbar đè lên */
+    /* ============================== */
+    
+    background-color: #f8fafc;
+    min-height: 100vh;
+}
+
+.back-button {
+    background: none;
+    border: 1px solid #cbd5e1;
+    color: #475569;
+    padding: 8px 15px;
+    margin-bottom: 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.back-button:hover {
+    background-color: #e2e8f0;
+    border-color: #94a3b8;
+}
+
+/* === CARD CHÍNH (Đã thu nhỏ bề ngang cho "bắt mắt hơn") === */
+.detail-card {
+    max-width: 850px; /* Thu nhỏ bề ngang để nội dung được cô đọng */
+    margin: 0 auto; /* Căn giữa card mới */
+    
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 15px 40px rgba(15, 23, 42, 0.1); /* Tăng độ nổi bật của bóng đổ */
+    overflow: hidden;
+    padding: 40px;
+    border: 1px solid #e2e8f0; /* Thêm viền nhẹ */
+}
+
+/* === HEADER VÀ ẢNH === */
+.detail-header {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.detail-image {
+    width: 160px; /* Thu nhỏ ảnh hơn một chút */
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 6px solid #f0f4f8;
+    box-shadow: 0 5px 20px rgba(59, 130, 246, 0.2);
+}
+
+.detail-info h1 {
+    font-size: 2.2rem; /* Giảm cỡ chữ tiêu đề */
+    color: #0f172a;
+    margin-bottom: 8px;
+    font-weight: 800; /* Tăng độ đậm */
+}
+
+.specialty-badge {
+    display: inline-block;
+    background-color: #e0e7ff;
+    color: #3b82f6;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.rating-badge {
+    color: #f59e0b;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* === BODY CHI TIẾT === */
+.detail-body {
+    padding-top: 20px;
+}
+
+.info-section {
+    margin-bottom: 35px; /* Giảm khoảng cách giữa các section */
+}
+
+.info-section h2 {
+    color: #0f172a;
+    font-size: 1.5rem; /* Giảm cỡ chữ h2 */
+    font-weight: 700;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px dashed #e2e8f0;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Tối ưu grid */
+    gap: 25px; /* Tăng khoảng cách grid */
+}
+
+.info-item .label {
+    font-weight: 500;
+    color: #64748b;
+    display: block;
+    margin-bottom: 4px;
+    font-size: 0.9rem;
+}
+
+.info-item .value {
+    font-weight: 600;
+    color: #1e293b;
+    font-size: 1rem;
+}
+
+.description-text {
+    line-height: 1.7;
+    color: #475569;
+    text-align: justify;
+}
+
+.services-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Giảm khoảng cách li */
+}
+
+.services-list li {
+    background-color: #f0f9ff;
+    color: #0c4a6e;
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border: 1px solid #bae6fd;
+}
+
+.contact-info p {
+    color: #475569;
+    line-height: 1.6;
+}
+
+.appointment-button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: #3b82f6;
+    color: white;
+    font-size: 1.15rem; /* Giảm cỡ chữ nút */
+    font-weight: 700;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 30px;
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+}
+
+.appointment-button:hover {
+    background-color: #2563eb;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(59, 130, 246, 0.4);
+}
+
+/* === REVIEW SECTION === */
+
+.reviews-section {
+    padding-top: 20px;
+    margin-top: 20px;
+    border-top: 2px solid #e2e8f0;
+}
+
+.review-item {
+    padding: 15px;
+    border: 1px solid #f1f5f9;
+    margin-bottom: 15px;
+    background-color: #fafbfd;
+    border-radius: 8px;
+}
+
+.review-item:last-child {
+    border-bottom: 1px solid #f1f5f9; /* Giữ lại viền để đồng bộ */
+}
+
+.review-rating {
+    color: #f97316;
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.review-comment {
+    color: #475569;
+    margin: 8px 0;
+    line-height: 1.5;
+}
+
+.review-date {
+    display: block;
+    font-size: 0.8rem;
+    color: #94a3b8;
+    text-align: right; /* Căn phải ngày */
+}
+
+/* Review Form */
+.review-form {
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    background-color: #f9fafb;
+}
+
+.review-form .form-group {
+    margin-bottom: 15px;
+}
+
+.review-form select,
+.review-form textarea {
+    background-color: white;
+}
+
+.submit-review-button {
+    background-color: #10b981;
+    /* Loại bỏ margin-top do đã áp dụng margin-bottom cho form-group */
+    margin-top: 0; 
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+}
+
+.submit-review-button:hover:not(:disabled) {
+    background-color: #059669;
+}
+
+.already-reviewed, .login-prompt {
+    padding: 15px;
+    border: 1px solid #bae6fd;
+    background-color: #f0f9ff;
+    color: #0c4a6e;
+    border-radius: 8px;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .detail-container {
+        padding: 80px 15px 40px 15px; /* Giảm padding ngang trên mobile */
+    }
+    .detail-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+    .detail-image {
+        width: 120px; /* Nhỏ hơn trên mobile */
+        height: 120px;
+    }
+    .detail-info h1 {
+        font-size: 1.8rem;
+    }
+    .detail-card {
+        padding: 20px;
+    }
+    .info-section h2 {
+        font-size: 1.3rem;
+    }
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+}

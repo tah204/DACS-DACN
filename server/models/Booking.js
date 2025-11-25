@@ -4,89 +4,120 @@ const bookingSchema = new mongoose.Schema({
   customerId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Customer',
-    required: true
-  },
-  bookingDate: {
-    type: Date,
-    required: true
-  },
-  serviceId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Service',
-    required: true
+    required: true,
+    index: true,
   },
   petId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Pet',
-    required: true
+    required: true,
+    index: true,
   },
-  checkIn: {
+  serviceId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Service',
+    required: true,
+    index: true,
+  },
+  subServices: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Service',
+  }],
+  doctorId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Doctor',
+    default: null,
+  },
+  bookingDate: {
     type: Date,
+    required: true,
   },
-  checkOut: {
-    type: Date,
-  },
-  notes: {
-    type: String,
-    default: ''
-  },
+  checkIn: { type: Date },
+  checkOut: { type: Date },
+
+  notes: { type: String, default: '' },
+
   status: {
     type: String,
-    enum: ['pending', 'active', 'completed', 'canceled'],
-    default: 'pending'
+    enum: ['pending', 'confirmed', 'active', 'completed', 'canceled'],
+    default: 'pending',
+    index: true,
   },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
+
+  totalAmount: {
+    type: Number,
+    required: [true, 'Tổng số tiền là bắt buộc'],
+    min: [0, 'Số tiền không được âm'],
+  },
+
+  paymentStatus: {
+    type: String,
+    enum: ['pending', 'success', 'failed'],
+    default: 'pending',
+  },
+  paymentMethod: {
+    type: String,
+    enum: ['momo', 'vnpay', 'paypal', 'cod'],
+    default: 'cod',
+  },
+  paymentDetails: {
+    type: Object,
+    default: {},
+  },
+}, {
+  timestamps: true, // tự động tạo createdAt & updatedAt → ĐÃ XÓA 2 field thủ công
 });
 
-bookingSchema.pre('validate', async function(next) {
-  if (this.checkIn && this.checkOut) {
-    if (this.checkOut <= this.checkIn) {
-      return next(new Error('Ngày check-out phải sau ngày check-in.'));
-    }
+// ==================== INDEXES QUAN TRỌNG ====================
+bookingSchema.index({ serviceId: 1, bookingDate: 1 });
+bookingSchema.index({ serviceId: 1, checkIn: 1, checkOut: -1 });
+bookingSchema.index({ status: 1, bookingDate: 1 });
+bookingSchema.index({ customerId: 1, createdAt: -1 });
+bookingSchema.index({ doctorId: 1, bookingDate: 1 });
+
+// ==================== MIDDLEWARE ====================
+bookingSchema.pre('save', async function (next) {
+  if (this.checkIn && this.checkOut && this.checkOut <= this.checkIn) {
+    return next(new Error('Ngày check-out phải sau ngày check-in'));
   }
 
-  const Customer = mongoose.model('Customer');
-  const Pet = mongoose.model('Pet');
+  if (this.isNew || this.isModified('petId') || this.isModified('customerId')) {
+    try {
+      const [customer, pet] = await Promise.all([
+        mongoose.model('Customer').findById(this.customerId).lean(),
+        mongoose.model('Pet').findById(this.petId).lean(),
+      ]);
 
-  try {
-    const customer = await Customer.findById(this.customerId);
-    const pet = await Pet.findById(this.petId);
-
-    if (!customer) {
-      return next(new Error('Khách hàng không tìm thấy.'));
-    }
-    if (!pet) {
-      return next(new Error('Thú cưng không tìm thấy.'));
-    }
-
-    if (pet.customerId.toString() !== this.customerId.toString()) {
-      return next(new Error('Thú cưng không thuộc về khách hàng này.'));
-    }
-  } catch (error) {
-    return next(new Error('Lỗi kiểm tra mối quan hệ khách hàng và thú cưng: ' + error.message));
-  }
-
-  // Kiểm tra trạng thái trước khi cập nhật
-  if (this.isModified('status')) {
-    const previous = await mongoose.model('Booking').findOne({ _id: this._id });
-    if (previous) {
-      if (this.status === 'completed' && previous.status !== 'active') {
-        return next(new Error('Đơn phải được xác nhận (active) trước khi hoàn thành (completed).'));
+      if (!customer) return next(new Error('Khách hàng không tồn tại'));
+      if (!pet) return next(new Error('Thú cưng không tồn tại'));
+      if (pet.customerId.toString() !== this.customerId.toString()) {
+        return next(new Error('Thú cưng không thuộc về khách hàng này'));
       }
+    } catch (err) {
+      return next(err);
+    }
+  }
+
+  if (this.isModified('status')) {
+    const oldStatus = this._originalStatus || 'pending';
+    const allowedTransitions = {
+      pending: ['confirmed', 'canceled'],
+      confirmed: ['active', 'canceled'],
+      active: ['completed'],
+      completed: [],
+      canceled: [],
+    };
+
+    if (oldStatus !== this.status && !allowedTransitions[oldStatus]?.includes(this.status)) {
+      return next(new Error(`Không thể chuyển từ ${oldStatus} sang ${this.status}`));
     }
   }
 
   next();
 });
 
-bookingSchema.index({ customerId: 1 });
-bookingSchema.index({ serviceId: 1 });
-bookingSchema.index({ petId: 1 });
-bookingSchema.index({ serviceId: 1, checkIn: 1, checkOut: 1 });
-bookingSchema.index({ status: 1 });
-bookingSchema.index({ serviceId: 1, bookingDate: 1 });
+bookingSchema.post('init', function () {
+  this._originalStatus = this.status;
+});
 
 module.exports = mongoose.model('Booking', bookingSchema);

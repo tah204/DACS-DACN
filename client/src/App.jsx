@@ -10,24 +10,25 @@ import UserManagement from './components/admin/UserManagement';
 import CategoryServiceManagement from './components//admin/CategoryServiceManagement';
 import CustomerManagement from './components/admin/CustomerManagement';
 import BookingManagement from './components/admin/BookingManagement';
+import DoctorManagement from './components/admin/DoctorManagement';
 import CustomerDetail from './components/admin/CustomerDetail';
-import Home from './pages/Home';
-import About from './pages/About';
-import Product from './pages/Products';
-import News from './pages/News';
-import Consulting from './pages/Consulting';
-import NewsDetail from './pages/NewsDetail';
-import ProductDetail from './pages/ProductDetail';
-import ActiveBookings from './pages/MyBookings';
-import BookingHistory from './pages/BookingHistory';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Account from './pages/Account';
-import MyPets from './pages/MyPets';
-import Services from './pages/Services';
-import ServiceHealthDetail from './pages/ServiceHealthDetail';
-import ServiceGroomDetail from './pages/ServiceGroomDetail';
-import ServiceHotelDetail from './pages/ServiceHotelDetail';
+import Home from './pages/Home/Home';
+import About from './pages/About/About';
+import News from './pages/News/News';
+import NewsDetail from './pages/News/NewsDetail';
+import ActiveBookings from './pages/Bookings/MyBookings';
+import PaymentResult from './pages/Bookings/PaymentResult';
+import BookingHistory from './pages/Bookings/BookingHistory';
+import Login from './pages/Auth/Login';
+import Register from './pages/Auth/Register';
+import Account from './pages/Profiles/Account';
+import MyPets from './pages/Profiles/MyPets';
+import Services from './pages/Services/Services';
+import ServiceHealthDetail from './pages/Services/ServiceHealthDetail';
+import ServiceGroomDetail from './pages/Services/ServiceGroomDetail';
+import ServiceHotelDetail from './pages/Services/ServiceHotelDetail';
+import DoctorDetail from './pages/Doctors/DoctorDetail';
+import Doctor from './pages/Doctors/DoctorPage';
 
 // Component trung gian để chọn đúng trang chi tiết dựa trên category ID
 const CategoryServiceDetail = () => {
@@ -73,15 +74,15 @@ function App() {
           <Route index element={<Home />} />
           <Route path="home" element={<Home />} />
           <Route path="about" element={<About />} />
-          <Route path="products" element={<Product />} />
-          <Route path="products/:id" element={<ProductDetail />} />
           <Route path="services" element={<Services />} />
           <Route path="categoryservices/:id" element={<CategoryServiceDetail />} /> {/* Tất cả danh mục dùng Layout */}
           <Route path="news" element={<News />} />
           <Route path="news/:id" element={<NewsDetail />} />
-          <Route path="consulting" element={<Consulting />} />
           <Route path="account" element={<Account />} />
           <Route path="mypets" element={<MyPets />} />
+          <Route path="payment-result" element={<PaymentResult />} />
+          <Route path="doctors" element={<Doctor />} />
+          <Route path="doctors/:id" element={<DoctorDetail />} />
           <Route
             path="mybookings"
             element={
@@ -119,6 +120,7 @@ function App() {
           <Route path="customers" element={<CustomerManagement />} />
           <Route path="customers/:id" element={<CustomerDetail />} />
           <Route path="bookings" element={<BookingManagement />} />
+          <Route path="doctor" element={<DoctorManagement />} />
         </Route>
 
         {/* Routes cho đăng nhập và đăng ký */}

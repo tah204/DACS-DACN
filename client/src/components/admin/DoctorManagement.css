@@ -1,0 +1,280 @@
+/* === QUẢN LÝ BÁC SĨ (Thiết kế lại) === */
+
+/* --- Tiêu đề và Nút Thêm Mới --- */
+.doctor-management {
+  /* Class này đã được đặt trong AdminLayout, chúng ta chỉ style phần con */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.dm-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem; /* Tăng khoảng cách */
+}
+
+.dm-header h1 {
+  font-size: 2rem; /* Tăng cỡ chữ tiêu đề */
+  font-weight: 700;
+  color: #1a202c; /* Màu đen đậm hơn */
+}
+
+/* Nút Thêm Bác sĩ (gradient) */
+.dm-btn-add {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem; /* Tăng padding */
+  border-radius: 0.5rem; /* Bo tròn vừa phải */
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3); /* Đổ bóng */
+}
+
+.dm-btn-add:hover {
+  transform: translateY(-2px); /* Hiệu ứng nổi */
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+}
+
+/* --- Bảng (Table) --- */
+.dm-table-wrapper {
+  background-color: #ffffff;
+  border-radius: 0.75rem; /* Bo tròn nhiều hơn */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); /* Bóng mượt hơn */
+  overflow: hidden; /* Quan trọng để giữ bo tròn */
+}
+
+.dm-table {
+  width: 100%;
+  border-collapse: collapse; /* Gộp viền */
+}
+
+.dm-table th,
+.dm-table td {
+  padding: 1rem 1.25rem; /* Tăng padding cho thoáng */
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0; /* Viền xám nhạt */
+  vertical-align: middle;
+}
+
+.dm-table th {
+  background-color: #f8fafc; /* Nền header bảng */
+  color: #4a5568; /* Màu chữ header */
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.dm-table td {
+  color: #2d3748; /* Màu chữ nội dung */
+  font-size: 0.9rem;
+}
+
+/* Tinh chỉnh cột đầu tiên (Ảnh) */
+.dm-table .doctor-image {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* --- Nút Sửa/Xóa trong bảng --- */
+.dm-actions {
+  display: flex;
+  gap: 0.75rem; /* Tăng khoảng cách */
+}
+
+.dm-btn-edit,
+.dm-btn-delete {
+  border: none;
+  padding: 0.6rem 0.9rem; /* Tăng padding */
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 600; /* Đậm hơn */
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dm-btn-edit {
+  background-color: #f59e0b; /* Vàng */
+  color: white;
+}
+.dm-btn-edit:hover {
+  background-color: #d97706;
+  transform: scale(1.05);
+}
+
+.dm-btn-delete {
+  background-color: #ef4444; /* Đỏ */
+  color: white;
+}
+.dm-btn-delete:hover {
+  background-color: #dc2626;
+  transform: scale(1.05);
+}
+
+/* --- Modal (Cửa sổ Pop-up) --- */
+.dm-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6); /* Tối hơn */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px); /* Hiệu ứng mờ */
+}
+
+.dm-modal-content {
+  background-color: white;
+  padding: 2rem; /* Tăng padding */
+  border-radius: 0.75rem; /* Bo tròn */
+  width: 90%;
+  max-width: 650px; /* Rộng hơn 1 chút */
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.dm-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.dm-modal-header h2 {
+  font-size: 1.5rem; /* Cỡ chữ to rõ */
+  font-weight: 700;
+  color: #1a202c;
+}
+
+.dm-modal-close {
+  background: none;
+  border: none;
+  font-size: 1.75rem;
+  cursor: pointer;
+  color: #9ca3af;
+  transition: color 0.2s;
+}
+.dm-modal-close:hover {
+  color: #1a202c;
+}
+
+/* --- Form trong Modal --- */
+.dm-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem; /* Tăng khoảng cách giữa các input */
+}
+
+.dm-form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.dm-form-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+/* Thiết kế lại Input và Textarea */
+.dm-form-group input,
+.dm-form-group textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem; /* Bo tròn */
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  box-sizing: border-box; 
+}
+
+.dm-form-group input:focus,
+.dm-form-group textarea:focus {
+  outline: none;
+  border-color: #2563eb; /* Viền xanh khi focus */
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15); /* Hiệu ứng bóng */
+}
+
+.dm-form-group textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Nút Hủy và Lưu (trong form) */
+.dm-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 1.5rem;
+}
+
+.dm-btn-cancel,
+.dm-btn-save {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.dm-btn-cancel {
+  background-color: #f3f4f6; /* Nền xám nhạt */
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+.dm-btn-cancel:hover {
+  background-color: #e5e7eb;
+}
+
+.dm-btn-save {
+  background-color: #2563eb;
+  color: white;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+.dm-btn-save:hover {
+  background-color: #1d4ed8;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.3);
+}
+
+/* --- Modal Xóa (Xác nhận) --- */
+.dm-delete-confirm {
+  text-align: center;
+  padding: 1rem;
+}
+.dm-delete-confirm h2 {
+  font-size: 1.5rem;
+  color: #dc2626; /* Màu đỏ cảnh báo */
+  margin-bottom: 1rem;
+}
+.dm-delete-confirm p {
+  font-size: 1rem;
+  color: #111827;
+  margin-bottom: 2rem;
+}
+.dm-delete-confirm .dm-btn-delete {
+  background-color: #dc2626;
+  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
+}
+.dm-delete-confirm .dm-btn-delete:hover {
+  background-color: #b91c1c;
+}

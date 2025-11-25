@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@paypal/react-paypal-js": "^8.9.2",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
@@ -10,6 +11,7 @@
     "aos": "^2.3.4",
     "axios": "^1.8.4",
     "bootstrap": "^5.3.6",
+    "file-saver": "^2.0.5",
     "framer-motion": "^12.12.1",
     "moment": "^2.30.1",
     "react": "^18.2.0",
@@ -22,7 +24,8 @@
     "react-simple-chatbot": "^0.6.1",
     "react-slick": "^0.30.3",
     "slick-carousel": "^1.8.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -30,6 +33,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -48,4 +52,5 @@
       "last 1 safari version"
     ]
   }
+
 }

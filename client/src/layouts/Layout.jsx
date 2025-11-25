@@ -32,7 +32,7 @@ const Layout = () => {
           {/* Logo */}
           <Link className="navbar-brand d-flex align-items-center fw-bold" to="/home" style={{ color: '#8B0000' }}>
             <img src="/images/logo.jpg" alt="NekoKin Logo" style={{ height: 40 }} className="me-2" />
-            NekoKin
+            PetHub
           </Link>
 
           {/* Mobile toggle */}
@@ -52,7 +52,9 @@ const Layout = () => {
               <li className="nav-item"><Link className="nav-link fw-semibold" to="/about">Giới thiệu</Link></li>
               {/* <li className="nav-item"><Link className="nav-link fw-semibold" to="/products">Sản phẩm</Link></li> */}
               <li className="nav-item"><Link className="nav-link fw-semibold" to="/services">Dịch vụ</Link></li>
+              <li className="nav-item"><Link className="nav-link fw-semibold" to="/doctors">Bác Sĩ</Link></li>
               <li className="nav-item"><Link className="nav-link fw-semibold" to="/news">Tin tức</Link></li>
+              
             </ul>
 
             <div className="d-flex align-items-center position-relative">
@@ -208,7 +210,7 @@ const Layout = () => {
             {/* Cột 1: Giới thiệu */}
             <div className="col-12 col-md-4 text-start"> {/* Thêm text-start để căn trái */}
               <p style={{ fontFamily: 'Quicksand, sans-serif', lineHeight: '1.8', fontSize: '15px', color: 'rgba(255, 255, 255, 0.7)' }}> {/* Giảm độ đậm của text-white-50 thành rgba */}
-                <strong style={{ color: 'white', fontSize: '30px' }}>NekoKin </strong> là cộng đồng cung cấp sản phẩm và dịch vụ chăm sóc thú cưng tốt nhất – nơi bạn có thể tin tưởng hoàn toàn cho bé cưng của mình.
+                <strong style={{ color: 'white', fontSize: '30px' }}>PetHub </strong> là cộng đồng cung cấp sản phẩm và dịch vụ chăm sóc thú cưng tốt nhất – nơi bạn có thể tin tưởng hoàn toàn cho bé cưng của mình.
               </p>
               <div className="mt-3">
                 <p className="mb-0" style={{ fontFamily: 'Quicksand, sans-serif', fontSize: '14px', color: 'rgba(255, 255, 255, 0.7)' }}> {/* Giảm độ đậm của text-white-50 thành rgba */}
