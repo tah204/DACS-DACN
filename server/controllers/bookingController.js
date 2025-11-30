@@ -506,9 +506,136 @@ exports.getAvailableTimes = async (req, res) => {
     }
 };
 
+// ==================== THÊM MỚI: TẠO BOOKING VẬN CHUYỂN ====================
+const { calculateDistance } = require('../services/mapService');
+exports.createShipmentBooking = async (req, res) => {
+    const {
+        serviceId,
+        petId,
+        bookingDate,              
+        pickupAddress,
+        dropoffAddress,
+        notes = '',
+        paymentMethod = 'cod'
+    } = req.body;
+
+    const customerId = req.user.customerId;
+
+    // Validate bắt buộc
+    if (!serviceId || !petId || !bookingDate || !pickupAddress || !dropoffAddress) {
+        return res.status(400).json({
+            message: 'Vui lòng cung cấp đầy đủ: dịch vụ, thú cưng, ngày vận chuyển, điểm đón, điểm trả.'
+        });
+    }
+
+    try {
+        // 1. Kiểm tra service có phải là vận chuyển (category = 4)
+        const service = await Service.findById(serviceId);
+        if (!service || String(service.category) !== '4') {
+            return res.status(400).json({ message: 'Dịch vụ không phải là vận chuyển thú cưng.' });
+        }
+
+        // 2. Kiểm tra pet thuộc về customer
+        const pet = await Pet.findById(petId);
+        if (!pet) return res.status(404).json({ message: 'Thú cưng không tồn tại.' });
+        if (pet.customerId.toString() !== customerId.toString()) {
+            return res.status(403).json({ message: 'Bạn không sở hữu thú cưng này.' });
+        }
+
+        // 3. Tính khoảng cách & thời gian bằng Google Maps
+        let distanceData;
+        try {
+            distanceData = await calculateDistance(pickupAddress, dropoffAddress);
+        } catch (err) {
+            return res.status(500).json({ message: 'Không thể tính khoảng cách. Vui lòng thử lại.' });
+        }
+
+        // 4. Xác định loại vận chuyển: standard hay express
+        const isExpress = service.name.toLowerCase().includes('express') || 
+                         service.name.toLowerCase().includes('nhanh');
+        const shipmentType = isExpress ? 'express' : 'standard';
+
+        // 5. Tính tổng tiền (công thức bạn có thể điều chỉnh thoải mái)
+        const basePrice = service.price; // Giá cố định trong service
+        const distanceKm = Math.round((distanceData.distanceValue / 1000) * 10) / 10; 
+        const totalAmount = basePrice * distanceKm ;
+
+        // 6. Tạo booking
+        const bookingData = {
+            customerId,
+            petId,
+            serviceId,
+            bookingDate: new Date(bookingDate),
+            shipmentDetails: {
+                pickupAddress: pickupAddress.trim(),
+                dropoffAddress: dropoffAddress.trim(),
+                distance: distanceKm,                            // km
+                duration: distanceData.durationText,             // "18 mins"
+                shipmentType
+            },
+            notes: notes.trim(),
+            totalAmount,
+            status: 'pending',
+            paymentStatus: paymentMethod === 'cod' ? 'pending' : 'pending',
+            paymentMethod
+        };
+
+        const booking = new Booking(bookingData);
+        const savedBooking = await booking.save();
+
+        // 7. Tạo link thanh toán nếu không phải COD
+        let paymentUrl = '';
+        let responseMessage = 'Đặt vận chuyển thành công!';
+
+        if (paymentMethod === 'momo') {
+            const paymentData = {
+                amount: totalAmount,
+                bookingId: savedBooking._id.toString(),
+            };
+            paymentUrl = await createMoMoPayment(paymentData);
+            responseMessage = 'Chuyển hướng đến MoMo...';
+        } else if (paymentMethod === 'vnpay') {
+            const ipAddress = req.headers['x-forwarded-for'] || req.ip || '127.0.0.1';
+            const paymentData = {
+                amount: totalAmount,
+                orderId: savedBooking._id.toString(),
+                ipAddr: ipAddress,
+            };
+            paymentUrl = createPaymentUrl(paymentData);
+            responseMessage = 'Chuyển hướng đến VNPAY...';
+        }
+
+        // Populate để trả về đẹp
+        const populatedBooking = await Booking.findById(savedBooking._id)
+            .populate('serviceId', 'name price')
+            .populate('petId', 'name type')
+            .populate('customerId', 'name phone');
+
+        res.status(201).json({
+            success: true,
+            message: responseMessage,
+            data: populatedBooking,
+            paymentUrl,
+            summary: {
+                distance: `${distanceKm} km`,
+                duration: distanceData.durationText,
+                totalAmount: totalAmount.toLocaleString('vi-VN') + 'đ'
+            }
+        });
+
+    } catch (error) {
+        console.error('Lỗi tạo booking vận chuyển:', error);
+        res.status(500).json({
+            message: 'Đã có lỗi xảy ra khi đặt vận chuyển.',
+            error: error.message
+        });
+    }
+};
+
 module.exports = {
     checkAvailability: exports.checkAvailability,
     createBooking: exports.createBooking,
+    createShipmentBooking: exports.createShipmentBooking,
     getAllBookings: exports.getAllBookings,
     updateBooking: exports.updateBooking,
     deleteBooking: exports.deleteBooking,

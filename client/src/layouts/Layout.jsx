@@ -50,7 +50,6 @@ const Layout = () => {
             <ul className="navbar-nav mx-auto">
               <li className="nav-item"><Link className="nav-link fw-semibold" to="/home">Trang chủ</Link></li>
               <li className="nav-item"><Link className="nav-link fw-semibold" to="/about">Giới thiệu</Link></li>
-              {/* <li className="nav-item"><Link className="nav-link fw-semibold" to="/products">Sản phẩm</Link></li> */}
               <li className="nav-item"><Link className="nav-link fw-semibold" to="/services">Dịch vụ</Link></li>
               <li className="nav-item"><Link className="nav-link fw-semibold" to="/doctors">Bác Sĩ</Link></li>
               <li className="nav-item"><Link className="nav-link fw-semibold" to="/news">Tin tức</Link></li>

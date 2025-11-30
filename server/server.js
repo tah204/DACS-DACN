@@ -17,6 +17,7 @@ const upload = require('./upload');
 const path = require('path');
 const doctorUserRoutes = require('./routes/doctorUserRoutes');
 const doctorAdminRoutes = require('./routes/doctorAdminRoutes');
+const mapRoutes = require('./routes/mapRoutes');
 
 // Import các model cần thiết
 const Service = require('./models/Service');
@@ -136,6 +137,7 @@ app.use('/api/payment/vnpay', paymentVNPayRoutes);
 app.use('/api/payment/momo', paymentMoMoRoutes);
 app.use('/api/payment/paypal', paymentPayPalRoutes);
 app.use('/api/doctors', doctorUserRoutes);
+app.use('/api/maps', mapRoutes);
 
 // Tạo router riêng cho admin
 const adminRouter = express.Router();

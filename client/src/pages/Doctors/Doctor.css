@@ -1,76 +1,97 @@
 .doctor-container {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 50px 20px;
-    background: linear-gradient(135deg, #ffffff 0%, #f5f7fa 50%, #e8ecf1 100%);
+    padding: 80px 20px 60px; /* Tăng padding-top để tránh navbar fixed */
+    background: linear-gradient(135deg, #FAF7F1 0%, #F5F5F0 50%, #FDFAF5 100%);
     text-align: center;
-    min-height: 100vh;
+    min-height: calc(100vh - 200px);
+    position: relative;
+    overflow: hidden;
+}
+
+.doctor-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 300px;
+    background: radial-gradient(ellipse at center, rgba(139, 0, 0, 0.03) 0%, transparent 70%);
+    z-index: 1;
+}
+
+.doctor-container > * {
+    position: relative;
+    z-index: 2;
 }
 
 .doctor-container h1 {
-    margin-bottom: 15px;
-    color: #0f172a;
-    font-size: 3rem;
-    font-weight: 800;
-    letter-spacing: -1px;
-    text-transform: uppercase;
+    margin-bottom: 24px;
+    color: #8B0000;
+    font-size: 3.2rem;
+    font-weight: 900;
+    letter-spacing: -1.5px;
+    text-shadow: 0 2px 10px rgba(139, 0, 0, 0.1);
+    position: relative;
+    font-family: 'Quicksand', sans-serif;
 }
 
-.doctor-container>p {
-    color: #64748b;
-    font-size: 1.15rem;
-    margin-bottom: 50px;
-    font-weight: 400;
-    letter-spacing: 0.5px;
+.doctor-container h1::after {
+    content: '';
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 5px;
+    background: linear-gradient(90deg, #8B0000, #A52A2A, #DC143C);
+    border-radius: 3px;
+    box-shadow: 0 2px 8px rgba(139, 0, 0, 0.2);
+}
+
+.doctor-container > p {
+    color: #5A4F47;
+    font-size: 1.2rem;
+    margin-bottom: 70px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+    font-family: 'Quicksand', sans-serif;
 }
 
 .doctor-list {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 60px;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 50px;
     justify-items: center;
-    margin-top: 30px;
-    max-width: 1000px;
+    margin-top: 20px;
+    max-width: 1300px;
     margin-left: auto;
     margin-right: auto;
-}
-
-@media (max-width: 1200px) {
-    .doctor-list {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 55px;
-        max-width: 720px;
-    }
-}
-
-@media (max-width: 768px) {
-    .doctor-list {
-        grid-template-columns: 1fr;
-        gap: 45px;
-        max-width: 100%;
-    }
-    .doctor-container h1 {
-        font-size: 2.2rem;
-    }
+    padding: 0 20px;
 }
 
 .doctor-card {
     width: 100%;
-    max-width: 300px;
-    background: #ffffff;
-    border-radius: 24px;
+    max-width: 380px;
+    background: #FFFFFF;
+    border-radius: 20px;
     cursor: pointer;
-    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 32px 24px 28px;
+    padding: 45px 32px 35px;
     text-align: center;
-    border: 1px solid rgba(15, 23, 42, 0.06);
+    border: 2px solid rgba(139, 0, 0, 0.05);
     position: relative;
     overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07), 0 10px 13px rgba(0, 0, 0, 0.06);
-    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.06),
+        0 4px 15px rgba(0, 0, 0, 0.04);
 }
 
 .doctor-card::before {
@@ -79,131 +100,233 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 5px;
-    background: linear-gradient(90deg, #3b82f6 0%, #1e40af 50%, #1e3a8a 100%);
+    height: 6px;
+    background: linear-gradient(90deg, #8B0000 0%, #A52A2A 50%, #DC143C 100%);
     transform: scaleX(0);
-    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     transform-origin: left;
 }
 
 .doctor-card::after {
     content: '';
     position: absolute;
-    bottom: 0;
+    top: 0;
     right: 0;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 0 0 120px 120px;
-    border-color: transparent transparent rgba(59, 130, 246, 0.04) transparent;
-    transition: all 0.5s ease;
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle, rgba(139, 0, 0, 0.06) 0%, transparent 70%);
+    border-radius: 50%;
+    transform: scale(0);
+    transition: transform 0.4s ease;
 }
 
 .doctor-card:hover {
-    transform: translateY(-18px) scale(1.03);
-    box-shadow: 0 25px 50px rgba(59, 130, 246, 0.2), 0 0 0 1px rgba(59, 130, 246, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.6);
-    border-color: rgba(59, 130, 246, 0.2);
-    background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 100%);
+    transform: translateY(-20px) scale(1.02);
+    box-shadow: 
+        0 30px 60px rgba(139, 0, 0, 0.12),
+        0 0 0 1px rgba(139, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    border-color: rgba(139, 0, 0, 0.15);
+    background: linear-gradient(145deg, #FFFFFF 0%, #FAF7F1 100%);
 }
 
 .doctor-card:hover::before {
     transform: scaleX(1);
 }
 
+.doctor-card:hover::after {
+    transform: scale(1);
+}
+
 .doctor-card img {
-    width: 100px !important;
-    height: 100px !important;
+    width: 130px !important;
+    height: 130px !important;
     display: block;
     border-radius: 50%;
     object-fit: cover;
-    margin-bottom: 20px;
+    margin-bottom: 28px;
     flex-shrink: 0;
-    border: 4px solid #f8fafc;
-    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2), 0 0 0 1px rgba(59, 130, 246, 0.08);
-    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.5s ease;
+    border: 6px solid #FAF7F1;
+    box-shadow: 
+        0 15px 35px rgba(139, 0, 0, 0.15),
+        0 0 0 1px rgba(139, 0, 0, 0.08);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
+    z-index: 2;
 }
 
 .doctor-card:hover img {
-    transform: scale(1.14);
-    box-shadow: 0 15px 40px rgba(59, 130, 246, 0.3), 0 0 0 2px rgba(59, 130, 246, 0.15);
+    transform: scale(1.08) rotate(3deg);
+    box-shadow: 
+        0 25px 50px rgba(139, 0, 0, 0.25),
+        0 0 0 4px rgba(139, 0, 0, 0.12);
+    border-color: #F5E6E6;
 }
 
 .doctor-card h2 {
-    font-size: 1.35rem;
-    color: #0f172a;
-    margin-bottom: 12px;
-    font-weight: 700;
-    letter-spacing: -0.3px;
-    transition: color 0.3s ease;
+    font-size: 1.55rem;
+    color: #2D1B1B;
+    margin-bottom: 14px;
+    font-weight: 800;
+    letter-spacing: -0.4px;
+    transition: all 0.3s ease;
+    line-height: 1.2;
+    font-family: 'Quicksand', sans-serif;
 }
 
 .doctor-card:hover h2 {
-    color: #3b82f6;
+    color: #8B0000;
+    text-shadow: 0 2px 8px rgba(139, 0, 0, 0.15);
 }
 
 .specialty {
-    font-weight: 600;
-    color: #3b82f6;
-    margin-bottom: 10px;
-    font-size: 0.95rem;
+    font-weight: 700;
+    color: #8B0000;
+    margin-bottom: 14px;
+    font-size: 1.05rem;
     letter-spacing: 0.4px;
-    text-transform: capitalize;
+    text-transform: uppercase;
     transition: all 0.3s ease;
+    font-family: 'Quicksand', sans-serif;
 }
 
 .doctor-card:hover .specialty {
-    color: #1e40af;
+    color: #A52A2A;
+    transform: scale(1.03);
 }
 
 .experience {
     font-style: normal;
-    color: #78716c;
-    margin-bottom: 16px;
-    font-size: 0.9rem;
-    font-weight: 500;
+    color: #6B5E4F;
+    margin-bottom: 22px;
+    font-size: 0.98rem;
+    font-weight: 600;
     letter-spacing: 0.2px;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-family: 'Quicksand', sans-serif;
 }
 
 .doctor-card:hover .experience {
-    color: #3b82f6;
+    color: #8B0000;
 }
 
 .description {
-    font-size: 0.9rem;
-    color: #64748b;
-    margin: 16px 0 20px;
-    line-height: 1.6;
+    font-size: 0.97rem;
+    color: #4A4035;
+    margin: 22px 0 28px;
+    line-height: 1.65;
     font-weight: 400;
     display: -webkit-box;
     -webkit-line-clamp: 3;
-    line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
     flex-grow: 1;
-    text-align: justify;
-    transition: color 0.3s ease;
+    text-align: center;
+    transition: all 0.3s ease;
+    min-height: 65px;
+    font-family: 'Quicksand', sans-serif;
 }
 
 .doctor-card:hover .description {
-    color: #475569;
+    color: #3A2F25;
 }
 
 .rating {
     margin-top: auto;
-    font-weight: 700;
-    color: #f59e0b;
-    font-size: 1.2rem;
-    letter-spacing: 0.5px;
-    padding-top: 18px;
-    border-top: 2px solid #f0f4f8;
+    font-weight: 800;
+    color: #DAA520;
+    font-size: 1.35rem;
+    letter-spacing: 0.4px;
+    padding: 18px 0;
+    border-top: 3px solid #FAF7F1;
     width: 100%;
     transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #FFF8E1, #FEF3C7);
+    border-radius: 14px;
+    margin-top: 24px;
+    padding: 14px 24px;
+    box-shadow: 0 6px 16px rgba(218, 165, 32, 0.12);
+    font-family: 'Quicksand', sans-serif;
 }
 
 .doctor-card:hover .rating {
-    color: #d97706;
-    border-top-color: #fcd34d;
+    color: #B8860B;
+    border-top-color: #FAD5A5;
+    background: linear-gradient(135deg, #FFEAA7, #FFD43B);
+    transform: scale(1.04);
+    box-shadow: 0 10px 24px rgba(218, 165, 32, 0.22);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .doctor-list {
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .doctor-container {
+        padding: 100px 15px 50px; /* Tăng padding-top cho mobile */
+    }
+    
+    .doctor-container h1 {
+        font-size: 2.6rem;
+        margin-bottom: 20px;
+    }
+    
+    .doctor-container > p {
+        font-size: 1.1rem;
+        margin-bottom: 50px;
+    }
+    
+    .doctor-list {
+        gap: 35px;
+    }
+    
+    .doctor-card {
+        padding: 35px 25px 30px;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .doctor-container h1 {
+        font-size: 2.2rem;
+    }
+    
+    .doctor-card img {
+        width: 110px !important;
+        height: 110px !important;
+    }
+    
+    .doctor-card {
+        padding: 30px 20px 25px;
+    }
+    
+    .doctor-list {
+        gap: 30px;
+    }
+}
+
+/* Loading & Error states */
+.doctor-container p[style*="color: red"] {
+    background: rgba(220, 38, 38, 0.08);
+    color: #DC2626;
+    padding: 24px;
+    border-radius: 16px;
+    border: 2px solid rgba(220, 38, 38, 0.15);
+    max-width: 600px;
+    margin: 30px auto;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 500;
 }

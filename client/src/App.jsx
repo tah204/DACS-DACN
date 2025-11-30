@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useParams } from 'rea
 import Layout from './layouts/Layout';
 import AdminLayout from './components/admin/AdminLayout';
 import AdminDashboard from './components/admin/AdminDashboard';
-import ProductManagement from './components/admin/ProductManagement';
 import ServiceManagement from './components/admin/ServiceManagement';
 import NewsManagement from './components/admin/NewsManagement';
 import UserManagement from './components/admin/UserManagement';
@@ -19,6 +18,7 @@ import NewsDetail from './pages/News/NewsDetail';
 import ActiveBookings from './pages/Bookings/MyBookings';
 import PaymentResult from './pages/Bookings/PaymentResult';
 import BookingHistory from './pages/Bookings/BookingHistory';
+import BookingShipment from './pages/Bookings/BookingShipment';
 import Login from './pages/Auth/Login';
 import Register from './pages/Auth/Register';
 import Account from './pages/Profiles/Account';
@@ -27,6 +27,7 @@ import Services from './pages/Services/Services';
 import ServiceHealthDetail from './pages/Services/ServiceHealthDetail';
 import ServiceGroomDetail from './pages/Services/ServiceGroomDetail';
 import ServiceHotelDetail from './pages/Services/ServiceHotelDetail';
+import ServiceShipmentDetail from './pages/Services/ServiceShipmentDetail';
 import DoctorDetail from './pages/Doctors/DoctorDetail';
 import Doctor from './pages/Doctors/DoctorPage';
 
@@ -43,6 +44,8 @@ const CategoryServiceDetail = () => {
       return <ServiceGroomDetail />;
     case 3:
       return <ServiceHotelDetail />;
+    case 4:
+      return <ServiceShipmentDetail />;
     default:
       return <Navigate to="/services" replace />; 
   }
@@ -83,6 +86,7 @@ function App() {
           <Route path="payment-result" element={<PaymentResult />} />
           <Route path="doctors" element={<Doctor />} />
           <Route path="doctors/:id" element={<DoctorDetail />} />
+          <Route path="shipment" element={<BookingShipment />} />
           <Route
             path="mybookings"
             element={
@@ -112,7 +116,6 @@ function App() {
         >
           <Route index element={<AdminDashboard />} />
           <Route path="dashboard" element={<AdminDashboard />} />
-          <Route path="products" element={<ProductManagement />} />
           <Route path="categoryservice" element={<CategoryServiceManagement />} />
           <Route path="services" element={<ServiceManagement />} />
           <Route path="news" element={<NewsManagement />} />
