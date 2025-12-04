@@ -8,7 +8,6 @@ import '../../App.css';
 
 const Home = () => {
   const [featuredNews, setFeaturedNews] = useState([]);
-  const [featuredProducts, setFeaturedProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [consultation, setConsultation] = useState({ petName: '', phone: '' });
 
@@ -19,13 +18,6 @@ const Home = () => {
         setFeaturedNews(sortedNews);
       })
       .catch((err) => console.error('Error fetching news:', err));
-
-    axios.get('http://localhost:5000/api/products')
-      .then((res) => {
-        const shuffled = res.data.sort(() => 0.5 - Math.random()).slice(0, 4);
-        setFeaturedProducts(shuffled);
-      })
-      .catch((err) => console.error('Error fetching products:', err));
 
     axios.get('http://localhost:5000/api/categoryservices')
       .then((res) => {
